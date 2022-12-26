@@ -1,0 +1,987 @@
+1000
+터미널에서 파일 열 때는 node 파일이름
+실행 중인 것을 컨트롤c로 중지하고(컨트롤d 나 .exit 입력)
+node입력 시 터미널 내에서 크롬 콘솔처럼 nodejs실행
+a= 10(앞에 let을 안 붙여도 됨)
+b= 20
+console.log(a+b) 하면 30 나옴
+
+1010
+const http = require('http')
+const server = http.createServer((req, res) => {		///const server = http.createServer(function(req, res){});를 람다식으로 표현
+  console.log("res");
+  res.write("hello");
+  res.end();
+});
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+age1030.html 가서
+favicon 추가하기(안함)
+
+1032
+const http = require("http");
+const server = http.createServer((req, res) => {
+  console.log(req.url);
+  res.write("hello");
+  res.end();
+});
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+파워북 251~252쪽 표
+
+1040
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url == "/") {
+    res.end("main");
+  } else if (req.url == "/info") {
+    res.write("kim");
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1100
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url == "/") {
+    res.end("main");
+  } else if (req.url == "/info") {
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>이름: 김유미</div>
+  <div>취미: 게임</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+
+1108
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url == "/") {
+    res.end("main");
+  } else if (req.url == "/info") {
+    res.setHeader("content-type", "text/plain");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>이름: 김유미</div>
+  <div>취미: 게임</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1109
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url == "/") {
+    res.end("main");
+  } else if (req.url == "/info") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>이름: 김유미</div>
+  <div>취미: 게임</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1110
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url == "/") {
+    res.end("main");
+  } else if (req.url == "/info") {
+    res.setHeader("content-type", "application/octet-stream");		//https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types에서 가져옴 파일다운로드
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>이름: 김유미</div>
+  <div>취미: 게임</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 200;	//에러창이 안 뜸
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1115
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url == "/") {
+    res.end("main");
+  } else if (req.url == "/info") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>이름: 김유미</div>
+  <div>취미: 게임</div>
+</body>
+</html>`;
+    res.write(html);
+    // res.end();			//end를 없애면 계속 진행. 끝나지 않음.
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1116
+const http = require("http");
+const server = http.createServer((req, res) => {
+  if (req.url == "/") {
+    res.end("main");
+  } else if (req.url == "/info") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>이름: 김유미</div>
+  <div>취미: 게임</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else if (req.url == "/boardReg1116") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>게시글 작성</h3>
+    <div><input type="text" /></div>
+    <div><textarea name="" id="" cols="30" rows="10"></textarea></div>
+    <div><button>등록</button></div>
+    <form></form>
+  </body>
+</html>
+`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+hash1135
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hash1135.html</title>
+  </head>
+  <body>
+    <p id="first">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, harum
+      veniam? Soluta dolores dolorum sapiente molestias, ab quidem voluptate
+      amet, praesentium cum dolore libero aperiam, nostrum temporibus eius vel
+      doloremque!
+    </p>
+    <p>
+      Possimus temporibus molestiae cum voluptatibus veritatis sapiente facere.
+      Atque similique cumque nesciunt at, quibusdam odit voluptatem neque
+      aspernatur aut corporis quo obcaecati exercitationem, porro iure delectus
+      ratione voluptates quisquam! Velit.
+    </p>
+    <p>
+      Velit soluta earum repellat necessitatibus fugit quaerat adipisci!
+      Voluptas illum, quibusdam saepe itaque nemo doloremque magnam repellendus
+      accusantium quo, ipsam autem explicabo, fuga quidem nostrum corporis a
+      blanditiis aperiam ab!
+    </p>
+    <p>
+      Adipisci temporibus perspiciatis cum quod totam voluptatibus, explicabo
+      odio excepturi assumenda nostrum unde placeat ad reiciendis, a,
+      necessitatibus ea nam! Autem quis at aspernatur totam. Facere unde a
+      aliquam minima?
+    </p>
+    <p>
+      Atque sequi optio molestiae ullam nulla a error commodi, eum excepturi
+      voluptas temporibus aliquam consectetur! Quo laboriosam assumenda sunt
+      illum tempore saepe corrupti, ipsam voluptatum quis adipisci possimus at
+      ad.
+    </p>
+    <p>
+      Reprehenderit incidunt enim, perspiciatis earum eveniet recusandae
+      officiis ipsam nam amet sed aspernatur, temporibus architecto fuga.
+      Cupiditate, corrupti voluptatum tenetur placeat cumque adipisci et
+      voluptatibus qui dolore praesentium nobis suscipit.
+    </p>
+    <p>
+      Qui dolor reprehenderit quaerat odio. Id et officiis porro debitis!
+      Accusantium maxime magnam cumque. Velit, nisi quis quas neque consequatur
+      labore id dolore incidunt a sit omnis eum fugit voluptatum!
+    </p>
+    <p>
+      Placeat, dicta quod illum maiores, similique commodi ut aut repellat
+      voluptas ratione saepe facere veritatis consequuntur quasi illo, nulla
+      delectus corporis eum nam minus eos quis cupiditate nihil dolor.
+      Voluptates.
+    </p>
+    <p>
+      Libero facere exercitationem sequi minus fugiat perferendis, eaque vitae,
+      repudiandae cupiditate quaerat magni corrupti animi magnam consequuntur ad
+      aliquid laudantium molestias quae maxime placeat illum ratione.
+      Accusantium quis in adipisci.
+    </p>
+    <p id="end">
+      Blanditiis consectetur veritatis possimus, sint dolore ducimus quae fuga,
+      dolorum maxime, aut voluptatum. Eveniet, facere earum perspiciatis ducimus
+      facilis ipsa commodi harum sunt vero dolorem, minus repellendus! Saepe,
+      quis aliquam.
+    </p>
+    <a href="#first" onclick="">맨위로</a>
+  </body>
+</html>
+
+우클릭 open with Live Server로 보기
+
+1145
+https://nodejs.org/dist/latest-v18.x/docs/api/http.html 에서 searchParams 검색
+
+const http = require("http");
+const server = http.createServer((req, res) => {
+  const myurl = new URL('http://127.0.0.1:3000'+ req.url)
+  console.log(myurl.pathname);
+  console.log(myurl.searchParams);
+  if (myurl.pathname == "/") {
+    res.end("main");
+  } else if (myurl.pathname == "/info") {
+    //res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>이름: 김유미</div>
+  <div>취미: 게임</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else if (myurl.pathname == "/boardReg1116") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>게시글 작성</h3>
+    <div><input type="text" /></div>
+    <div><textarea name="" id="" cols="30" rows="10"></textarea></div>
+    <div><button>등록</button></div>
+    <form></form>
+  </body>
+</html>
+`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1220
+const http = require("http");
+let infoarr = [];		//cmd창 가서 node 엔터 후 let infoarr = []; 복사 후 우클릭(복사) 후 엔터 infoarr["kim"] = { name: "김유신", hobby: "게임" }; 엔터 infoarr["park"] = { name: "박기자", hobby: "독서" }; 엔터 infoarr['kim'] 엔터 infoarr['kim'].name 엔터해서 각각 결과 보기
+infoarr["kim"] = { name: "김유신", hobby: "게임" };
+infoarr["park"] = { name: "박기자", hobby: "독서" };
+const server = http.createServer((req, res) => {
+  const myurl = new URL("http://127.0.0.1:3000" + req.url);
+  console.log(myurl.pathname);
+  console.log(myurl.searchParams);
+  if (myurl.pathname == "/") {
+    res.end("main");
+  } else if (myurl.pathname == "/info") {
+    //res.setHeader("content-type", "text/html");
+    let userid = myurl.searchParams.get("userid");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>id: ${userid ? userid : ""}</div>
+  <div>이름: ${infoarr[userid].name}</div>
+  <div>취미: ${infoarr[userid].hobby}</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else if (myurl.pathname == "/boardReg1116") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>게시글 작성</h3>
+    <div><input type="text" /></div>
+    <div><textarea name="" id="" cols="30" rows="10"></textarea></div>
+    <div><button>등록</button></div>
+    <form></form>
+  </body>
+</html>
+`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1230
+const http = require("http");
+let infoarr = [];
+infoarr["kim"] = { name: "김유신", hobby: "게임" };
+infoarr["park"] = { name: "박기자", hobby: "독서" };
+const server = http.createServer((req, res) => {
+  const myurl = new URL("http://127.0.0.1:3000" + req.url);
+  console.log(myurl.pathname);
+  console.log(myurl.searchParams);
+  if (myurl.pathname == "/") {
+    res.end("main");
+  } else if (myurl.pathname == "/info") {
+    //res.setHeader("content-type", "text/html");
+    let userid = myurl.searchParams.get("userid");
+    if (!userid || !infoarr[userid]) {
+      res.end("no user");
+      return;
+    }
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>id: ${userid ? userid : ""}</div>
+  <div>이름: ${infoarr[userid].name}</div>
+  <div>취미: ${infoarr[userid].hobby}</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else if (myurl.pathname == "/boardReg1116") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>게시글 작성</h3>
+    <div><input type="text" /></div>
+    <div><textarea name="" id="" cols="30" rows="10"></textarea></div>
+    <div><button>등록</button></div>
+    <form></form>
+  </body>
+</html>
+`;
+    res.write(html);
+    res.end();
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1240
+const http = require("http");
+let infoarr = [];
+infoarr["kim"] = { name: "김유신", hobby: "게임" };
+infoarr["park"] = { name: "박기자", hobby: "독서" };
+const server = http.createServer((req, res) => {
+  const myurl = new URL("http://127.0.0.1:3000" + req.url);
+  console.log(myurl.pathname);
+  console.log(myurl.searchParams);
+  if (myurl.pathname == "/") {
+    res.end("main");
+  } else if (myurl.pathname == "/info") {
+    //res.setHeader("content-type", "text/html");
+    let userid = myurl.searchParams.get("userid");
+    if (!userid || !infoarr[userid]) {
+      res.end("no user");
+      return;
+    }
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>id: ${userid ? userid : ""}</div>
+  <div>이름: ${infoarr[userid].name}</div>
+  <div>취미: ${infoarr[userid].hobby}</div>
+</body>
+</html>`;
+    res.write(html);
+    res.end();
+  } else if (myurl.pathname == "/boardReg1116") {
+    res.setHeader("content-type", "text/html");
+    let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>게시글 작성</h3>
+    <form action="boardReg1116Action">
+    <div><input type="text" name="title" /></div>
+    <div><textarea name="content" id="" cols="30" rows="10"></textarea></div>
+    <div><button>등록</button></div>
+    <form></form>
+  </body>
+</html>
+`;
+    res.write(html);
+    res.end();
+  } else if (myurl.pathname == "/boardReg1116Action") {
+    let title = myurl.searchParams.get("title");
+    let content = myurl.searchParams.get("content");
+
+    console.log("title", title);
+    console.log("content", content);
+    res.end("등록완료");
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+1400
+const http = require("http");
+let infoarr = [];
+infoarr["kim"] = { name: "김유신", hobby: "게임" };
+infoarr["park"] = { name: "박기자", hobby: "독서" };
+const server = http.createServer((req, res) => {
+  const myurl = new URL("http://127.0.0.1:3000" + req.url);
+  console.log(myurl.pathname);
+  console.log(myurl.searchParams);
+  if (myurl.pathname == "/") {
+    res.end("main");
+  } else if (myurl.pathname == "/info") {
+    //
+    //res.setHeader("content-type", "text/html");
+    let userid = myurl.searchParams.get("userid");
+    res.end(info(userid));
+  } else if (myurl.pathname == "/boardReg1116") {
+    res.write(boardReg1116());
+    res.end();
+  } else if (myurl.pathname == "/boardReg1116Action") {
+    let title = myurl.searchParams.get("title");
+    let content = myurl.searchParams.get("content");
+
+    console.log("title", title);
+    console.log("content", content);
+    res.end("등록완료");
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+
+function info(userid){
+    if (!userid || !infoarr[userid]) {
+      return "no user";
+    }
+    let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>id: ${userid ? userid : ""}</div>
+  <div>이름: ${infoarr[userid].name}</div>
+  <div>취미: ${infoarr[userid].hobby}</div>
+</body>
+</html>`;
+    return html;
+}
+
+function boardReg1116(){
+      let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>게시글 작성</h3>
+    <form action="boardReg1116Action">
+    <div><input type="text" name="title" /></div>
+    <div><textarea name="content" id="" cols="30" rows="10"></textarea></div>
+    <div><button>등록</button></div>
+    <form></form>
+  </body>
+</html>
+`;
+  return html;
+
+}
+
+
+1420
+const http = require("http");
+let infoarr = [];
+infoarr["kim"] = { name: "김유신", hobby: "게임" };
+infoarr["park"] = { name: "박기자", hobby: "독서" };
+const server = http.createServer((req, res) => {
+  const myurl = new URL("http://127.0.0.1:3000" + req.url);
+  console.log(myurl.pathname);
+  console.log(myurl.searchParams);
+  if (myurl.pathname == "/") {
+    res.end("main");
+  } else if (myurl.pathname == "/info") {
+    //
+    //res.setHeader("content-type", "text/html");
+    let userid = myurl.searchParams.get("userid");
+    res.end(info(userid));  	////end는 write 기능도 같이 있음.
+  } else if (myurl.pathname == "/boardReg1116") {
+    res.write(boardReg1116());
+    res.end();
+  } else if (myurl.pathname == "/userReg") {
+    res.write(userReg());
+    res.end();
+  } else if (myurl.pathname == "/boardReg1116Action") {
+    let title = myurl.searchParams.get("title");
+    let content = myurl.searchParams.get("content");
+
+    console.log("title", title);
+    console.log("content", content);
+    res.end("등록완료");
+  } else if (myurl.pathname == "/userRegAction") {
+    let userid = myurl.searchParams.get("userid");
+    let username = myurl.searchParams.get("username");
+    let pw = myurl.searchParams.get("pw");
+    let hp = myurl.searchParams.get("hp");
+
+    console.log("userid", userid);
+    console.log("username", username);
+    console.log("pw", pw);
+    console.log("hp", hp);
+    res.end("등록완료");
+  } else {
+    res.statusCode = 404;
+    res.end();
+  }
+});
+
+server.listen(3000, () => {
+  console.log("server is running http://127.0.0.1:3000");
+});
+
+function info(userid) {
+  if (!userid || !infoarr[userid]) {
+    return "no user";
+  }
+  let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>info1100.html</title>
+</head>
+<body>
+  <h3>my info</h3>
+  <div>id: ${userid ? userid : ""}</div>
+  <div>이름: ${infoarr[userid].name}</div>
+  <div>취미: ${infoarr[userid].hobby}</div>
+</body>
+</html>`;
+  return html;
+}
+
+function boardReg1116() {
+  let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>게시글 작성</h3>
+    <form action="boardReg1116Action">
+    <div><input type="text" name="title" /></div>
+    <div><textarea name="content" id="" cols="30" rows="10"></textarea></div>
+    <div><button>등록</button></div>
+    </form>
+  </body>
+</html>
+`;
+  return html;
+}
+
+function userReg() {
+  let html = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="userRegAction">
+    <input type="text" name="userid" placeholder="아이디" />
+    <input type="text" name="username" placeholder="이름" />
+    <input type="text" name="pw" placeholder="비밀번호" />
+    <input type="text" name="hp" placeholder="전화번호" />
+    <button>등록</button>
+    </form>
+
+  </body>
+</html>
+`;
+  return html;
+}
+
+npm 구글에서 검색해서 들어간 뒤 pm2 검색해서 클릭 사용법 설명 보기(자세한 설명은 우측 homepage)
+터미널에서 
+npm install pm2 -g 로 설치
+pm2 start app.js
+pm2 list app
+pm2 stop app
+pm2 delete app stop안하고 지워도 됨
+pm2 restart app
+pm2 start app.js --watch 설정,소스 변경이 되면 자동으로 반영해서 restart
+pm2 logs 프로세스매니저의 모든 로그를 볼 수 있다(pm2 logs server 라고 하면 server 로그만 본다)
+pm2 monit
+pm2 logs --timestamp
+pm2 logs --json
+
+anxios
+https://www.npmjs.com/package/axios
+
+파워북p147
+
+1600
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>app.html</title>
+  </head>
+  <body>
+    <h3>모듈 테스트</h3>
+    <script src="module0.js"></script>
+    <script>
+      module("test hello");
+    </script>
+  </body>
+</html>
+
+<!-- function module(msg) {
+  console.log("msg:" + msg);
+} module0.js로 파일 저장하기-->
+
+@@@@@@@@@@@@@@@@1620
+app2.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>app2.html</title>
+  </head>
+  <body>
+    <h3>모듈 테스트</h3>
+    <script src="main.js" type="module"></script>
+  </body>
+</html>
+
+
+export default function module(msg) {
+  //default는 하나만 적용할때만 넣기 두 개 이상이면 default 빼기
+  console.log("msg:" + msg);
+}
+export function area(a, b) {
+  console.log("area:" + a * b);
+}
+
+import md, { area } from "./module.js";	
+//default는 {} 넣지 않음.
+md("test");
+area(10, 20);
+
+
+#########main.js
+
+// import md, { area } from "./module.js";
+// //default는 {} 넣지 않음.
+// md("test");
+// area(10, 20);
+
+/* import * as md from "./module.js";
+md.module("test");
+md.area(10, 20); */
+
+// import { module, area } from "./module.js";
+// module("test");
+// area(10, 20);
+
+// import { module as mod, area } from "./module.js";
+// import square from "./moduleone.js";
+// mod("test");
+// area(10, 20);
+
+/* import { module, area } from "./module.js";
+import squ from "./moduleone.js";
+module("test");
+area(10, 20);
+squ(); */
+//square를 줄여쓴 것 단 위에 from 앞에 글자랑 같아야됨
+
+import { module, area } from "./module.js";
+import squ, { circle } from "./moduleone.js";
+module("test");
+area(10, 20);
+squ();
+circle();
+
+
+####module.js
+
+function module(msg) {
+  //default는 하나만 적용
+  console.log("msg:" + msg);
+}
+function area(a, b) {
+  console.log("area:" + a * b);
+}
+
+export { module, area };
+
+/*export function module(msg) {
+  //default는 하나만 적용
+  console.log("msg:" + msg);
+}
+export function area(a, b) {
+  console.log("area:" + a * b);
+}
+*/
+
+
+########moduleone.js
+
+export default function square() {
+  console.log("square");
+}
+export function circle() {
+  console.log("circle");
+}
+
+
+
+@@@@@@@@@@1700
+###############module1650.js
+
+import total from "./sum1650.js";
+total(10, 20);
+
+
+
+############sum1650.js
+
+export default function total(a, b) {
+  console.log(a + b);
+}
+
+
+터미널창 가서 npm init 엔터 치고 entry point만 module1650.js 치고 나머지는 엔터 다 친다
+그러면 package.json 파일이 생기는데 마지막에 "license": "ISC"뒤에 ,  "type": "module" 추가
+
+그리고 다시 터미널 가서 npm install axios 엔터치면 node_modules 폴더가 생성
+그리고 package.json 파일에 "dependencies": {    "axios": "^1.2.1"  } 추가됨
+
+터미널 가서 node module1650.js  치면 30 나오면 됨
+
+
+
+
