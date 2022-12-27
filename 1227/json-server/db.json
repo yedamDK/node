@@ -1,0 +1,27 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "kim"
+    },
+    {
+      "id": 2,
+      "title": "second",
+      "author": "kim"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment"
+    },
+    {
+      "id": 2,
+      "body": "some comment"
+    }
+  ],
+  "profile": {
+    "name": "park"
+  }
+}

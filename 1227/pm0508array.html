@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pm0508array.html</title>
+  </head>
+  <body>
+    <script>
+      //깊은복사(같은값 참조)
+      let arr1 = ["사과", "바나나"];
+      let arr2 = arr1;
+      arr2[0] = "포도";
+      console.log(arr1[0]);
+      //얕은복사
+      let arr3 = ["사과", "바나나"];
+      let arr4 = [...arr3]; //...는 spread 펼친다는 의미
+      arr4[0] = "포도";
+      console.log(arr3[0]);
+
+      let arr5 = ["사과", "바나나", { id: 1, name: "park" }];
+      let arr6 = [...arr5]; //기본타입 깊은 복사, 객체타입 얕은 복사
+      arr6[0] = "포도";
+      arr6[2].name = "choi";
+      console.table(arr5);
+      console.table(arr6);
+
+      let arr7 = ["사과", "바나나", { id: 1, name: "park" }];
+      let arr8 = JSON.parse(JSON.stringify(arr7)); //깊은복사
+      arr8[0] = "포도";
+      arr8[2].name = "choi";
+      console.table(arr7);
+      console.table(arr8);
+
+      // console.log(arr5[2]);
+    </script>
+  </body>
+</html>

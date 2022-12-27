@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>post관리</h3>
+    <button onclick="selectPost()">post조회</button>
+    <div id="postlist"></div>
+    <form>
+      <input id="id" placeholder="id" />
+      <input id="title" placeholder="title" />
+      <input id="author" placeholder="author" />
+      <button id="btnAdd" type="button">포스트등록</button>
+    </form>
+    <script>
+      selectPost(); //hoisting 끌어올리다 function 밑에 적어도 상관 없다
+      btnAdd.addEventListener("click", insertPost); //등록기능 직접이벤트
+      postlist.addEventListener("click", deletePost); //삭제기능 그룹(위임)이벤트
+
+      //post 삭제 -delete 방식 /posts/1
+      function deletePost(ev) {
+        let id = ev.target.getAttribute("data-id");
+        let url = "http://localhost:3000/posts/" + id;
+        fetch(url, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((res) => selectPost());
+      }
+
+      //post등록 - post 방식 json 형식 파라미터
+      function insertPost() {
+        let url = "http://localhost:3000/posts";
+        let data = { id: id.value, title: title.value, author: author.value };
+
+        fetch(url, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(data),
+        })
+          .then((res) => res.json())
+          .then((res) => selectPost());
+      }
+      //post 전체조회 -get
+      function selectPost() {
+        let url = "http://localhost:3000/posts";
+        //ajax 동기식 promise
+        fetch(url)
+          .then(
+            (res) => res.json() // .then(((res) => {return res.json();}))
+          )
+          .then((post) => {
+            //변수명은 정할 수 있음
+            postlist.innerHTML = "";
+            for (let i = 0; i < post.length; i++) {
+              postlist.innerHTML += `<div>${post[i].id} ${post[i].title}
+                              <button data-id="${post[i].id}">삭제</button></div>`;
+            }
+          });
+      }
+    </script>
+  </body>
+</html>

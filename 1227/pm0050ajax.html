@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>post관리</h3>
+    <button onclick="selectPost()">post조회</button>
+    <div id="postlist"></div>
+    <script>
+      selectPost(); //hoisting 끌어올리다 function 밑에 적어도 상관 없다
+      //post 전체조회 -get
+      function selectPost() {
+        let url = "http://localhost:3000/posts";
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          console.log("요청완료");
+          const post = JSON.parse(xhr.responseText);
+          for (let i = 0; i < post.length; i++) {
+            postlist.innerHTML += `<div>${post[i].title}</div>`;
+          }
+        };
+        xhr.open("get", url);
+        xhr.send();
+        console.log("요청시작");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+` 백픽(~틸드 아래 있는 것)
+웹서버에서 rest서버or ajax서버 json html text
+
+###########1000
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
+const str1 = 'Saturday night plans';
+
+console.log(str1.startsWith('Sat'));
+// expected output: true
+
+console.log(str1.startsWith('Sat', 3));
+// expected output: false
+
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
+const str = 'Mozilla';
+
+console.log(str.substring(1, 3));
+// expected output: "oz"
+
+console.log(str.substring(2));
+// expected output: "zilla"
+node.js 교재 96쪽부터 내용 참고
+@@@@@@@@@@server1000.js
+//template파일을 만들어 줘야 됨
+const http = require("http"); //http.js(모듈)의 http 객체 참조 변수
+const fs = require("fs");
+//서버 선언(클라이언트 요청 시 호출될(처리할) 핸들러)
+const server = http.createServer((req, res) => {
+  const myurl = new URL("http://localhost:3000" + req.url);
+  console.log("pathname=", myurl.pathname);
+  console.log("searchparam=", myurl.searchParams);
+  if (myurl.pathname.startsWith("/page")) {
+    const pagename = "./template" + myurl.pathname.substring(5) + ".html";
+    //http://localhost:3000/에서 /page/boardReg
+    fs.readFile(pagename, "utf8", (err, data) => {
+      res.end(data);
+    });
+  } else {
+    res.end("no path");
+  }
+});
+server.listen(3000, () => {
+  console.log("server running http://localhost:3000");
+});
+
+
+##########1040
+thread 프로세스(process) 내에서 실제로 작업을 수행하는 주체 
+process 실행중인 프로그램
+processor 실행장치 cpu
+node는 single thread
+non.blocking = Asynchronous비동기 single thread인데 작업처리시간이 길어 다른 작업이 불가능하므로
+worker에게 맡기고 처리 다른 일을 하고 다른 작업을 한다. worker에게 맡긴 일이 완료되면 콜백함수를 이용해 처리
+
+#########1100 교안 11쪽
+비동기방식 non-blocking 멈추지 않음 다 처리되고 나면 콜백함수 (err,data) => { if(err) {   throw err;  }console.log(data); }) 실행
+Sync가 들어가면 그 줄이 끝나야 다음 진행(동기식)
+
+
+ajax: 페이지 일부분만 교체하는 기술
+
+#########1133
+json-server 파일 만들고
+터미널에서(json-server위치에서) npm install -g json-server 설치하기
+db.json파일 만들고 저장
+터미널에서 json-server --watch db.json
+각 주소별로 컨트롤 클릭해서 되는지 확인
+크롬에서 부메랑 열고 방금 연 주소 넣고 send 되는지 확인
+
+#########1200
+교안 ajax p.6
+querystring 서버쪽에 넘겨주는 파라미터 ?뒤 내용 id나 password 노출이 될 수 있어서 post 방식으로 숨겨서 보냄 
+전체 url 제한 255이라서 파라미터가 아주 길 때는 post방식(post 안에서는 길이 제한 없음)
+get은 read(select)조회 delete할 때 사용 중요한 정보가 없으니 create(insert)등록과 update수정은 post사용
+rest서버는 querystring 등을 쓰지 않아 기존에 비해 url이 간단함
+post는 a href로 안 되고 method="post"로 해야 됨. 그래서 테스트가 필요
+부메랑 가서 new request 눌러서 새 request 만들고 기존 request(http://localhost:3000/posts)에서 내용 복사 후
+새 request에서 post로 바꾸고 주소 입력 후 밑에 body를 json으로 바꾸고 기존에서 복사한 내용([]는 빼고 {}까지 넣기) 붙여놓고 send 후
+다시 post를 get으로 바꾸고 send하면 추가된 것을 볼 수 있음
+delete할 때는 http://localhost:3000/posts/1 로 바꾸고 send 누르면 됨
+[]배열로 만든 것이 아닌 것 즉 {}만 있는 것은 post해도 추가되지 않고 수정만 됨
+@@@@@@@@@ajax1235.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>post관리</h3>
+    <button onclick="selectPost()">post조회</button>
+    <div id="postlist"></div>
+    <script>
+      selectPost(); //hoisting 끌어올리다 function 밑에 적어도 상관 없다
+      //post 전체조회 -get
+      function selectPost() {
+        let url = "http://localhost:3000/posts";
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          console.log("요청완료");
+          postlist.innerHTML += xhr.responseText;
+          console.table(xhr.responseText);
+        };
+        xhr.open("get", url);
+        xhr.send();
+        console.log("요청시작");
+      }
+    </script>
+  </body>
+</html>
+
+@@@@@@@@@ajax1240동기식.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>post관리</h3>
+    <button onclick="selectPost()">post조회</button>
+    <div id="postlist"></div>
+    <script>
+      selectPost(); //hoisting 끌어올리다 function 밑에 적어도 상관 없다
+      //post 전체조회 -get
+      function selectPost() {
+        let url = "http://localhost:3000/posts";
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          console.log("요청완료");
+          postlist.innerHTML += xhr.responseText;
+          console.table(xhr.responseText);
+        };
+        xhr.open("get", url, false);
+        xhr.send();
+        console.log("요청시작");
+      }
+    </script>
+  </body>
+</html>
+
+@@@@@@@@@ajax1250.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3>post관리</h3>
+    <button onclick="selectPost()">post조회</button>
+    <div id="postlist"></div>
+    <script>
+      selectPost(); //hoisting 끌어올리다 function 밑에 적어도 상관 없다
+      //post 전체조회 -get
+      function selectPost() {
+        let url = "http://localhost:3000/posts";
+        let xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          console.log("요청완료");
+          const post = JSON.parse(xhr.responseText);
+          for (let i = 0; i < post.length; i++) {
+            postlist.innerHTML += `<div>${post[i].title}</div>`;
+          }
+        };
+        xhr.open("get", url);
+        xhr.send();
+        console.log("요청시작");
+      }
+    </script>
+  </body>
+</html>
