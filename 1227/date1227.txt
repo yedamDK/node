@@ -1,5 +1,26 @@
 ` 백픽(~틸드 아래 있는 것)
 웹서버에서 rest서버or ajax서버 json html text
+########0940
+@@@@@@@server0940
+const http = require("http"); //http.js(모듈)의 http 객체 참조 변수
+//서버 선언(클라이언트 요청 시 호출될(처리할) 핸들러)
+const server = http.createServer((req, res) => {
+  const myurl = new URL("http://localhost:3000" + req.url);
+  console.log("pathname=", myurl.pathname);
+  console.log("searchparam=", myurl.searchParams);
+  if (myurl.pathname == "/board") {
+    res.end("board list");
+  } else if (myurl.pathname == "/reg") {
+    res.end("user register");
+  } else {
+    res.end("no path");
+  }
+});
+server.listen(3000, () => {
+  console.log("server running http://localhost:3000");
+});
+
+
 
 ###########1000
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith
@@ -177,3 +198,12 @@ delete할 때는 http://localhost:3000/posts/1 로 바꾸고 send 누르면 됨
     </script>
   </body>
 </html>
+
+#########1730
+mdn 가서 array
+arr.length = 0 하면 배열 다 지움
+#########1735
+교재 p.45
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/sort
+Array.prototype.sort()
+sort() 메서드는 배열의 요소를 적절한 위치에 정렬한 후 그 배열을 반환
