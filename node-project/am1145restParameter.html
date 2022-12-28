@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>am1145restParameter.html</title>
+  </head>
+  <body>
+    <h3>restParameter</h3>
+    <script>
+      function sum(x1, x2) {
+        let y = x1 + x2;
+        return y;
+      }
+      // function sum(x1, x2, x3) {
+      //   let y = x1 + x2 + x3;
+      //   return y;
+      // }
+      function sumrest(...arr) {
+        let y = 0;
+        for (let i = 0; i < arr.length; i++) {
+          y += arr[i];
+        }
+        return y;
+      }
+      console.log(sum(5, 7));
+      console.log(sumrest(5, 7, 10));
+      console.log(sumrest(5, 7, 10, 3, 4));
+      const num = [5, 7, 10, 3, 4];
+      console.log(sumrest(...num)); //...는 spread연산자
+    </script>
+  </body>
+</html>

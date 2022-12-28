@@ -1,0 +1,495 @@
+교재 챕터7
+nosdjs파일에서 터미널 열고
+교안3쪽 참고
+node-project 파일만들고 그 안에서 다 함
+version부터는 엔터치면 됨
+#########################################
+설치파일 git에 안 올리려면 그 해당폴더 상위폴더에서 .gitignore 파일을 만들고 해당 위치를 입력ex. node-project/package.json
+또는 세번째 소스 컨트롤에서 해당폴더 우클릭 후 add to .gitignore 클릭
+########################################
+터미널에서
+npm install -g nodemon --save-dev (-g 는 global 의미 전체)
+
+node-project 폴더에 app.js파일 만들고 교안대로 입력
+
+package.json 수정하기(, 안 빼먹도록 주의)
+#######################################
+app.js파일에서 "hello world!!!!!!!!!!"수정 후
+터미널에서 node start node run dev 해보기
+###########################
+app.js파일에서
+app.get("/customer", (req, res) => {
+  res.send("get");
+});
+app.post("/customer", (req, res) => {
+  res.send("post");
+});
+입력 후 부메랑 가서 /customer get post되는지 확인
+#######################################
+app.js파일에서
+app
+  .route("/board")
+  .get((req, res) => {
+    res.send("board get");
+  })
+  .post((req, res) => {
+    res.send("board post");
+  })
+  .put((req, res) => {
+    res.send("board put");
+  })
+  .delete((req, res) => {
+    res.send("board delete");
+  });
+입력 후 부메랑 가서 /board get post put delete되는지 확인
+#############1000###############################
+정규표현식 p.119
+참고: https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Regular_Expressions
+https://blog.minov.co.kr/entry/PHP-%EC%9D%B4%EB%A6%84%EC%9D%B4%EB%A9%94%EC%9D%BC%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8%EC%9A%B0%ED%8E%B8%EB%B2%88%ED%98%B8%EB%93%B1-%EC%A0%95%EA%B7%9C%EC%8B%9D
+"/^\d{3}-?\d{3}$/u" ^시작 의미 $끝 의미 d숫자 의미
+파일에 추가
+app.get('/', (req,res)=>{ res.send('정규표현식')})
+p.64 정규표현식
+regularExpression.html파일보기
+################################################
+app.js파일 가서 수정	// 
+
+const express = require("express");
+const boardRouter = require("./routes/board")
+const app = express();
+const port = 3000;
+
+
+app.use('/board',boardRouter)
+//(req, res) => {  res.send("hello world!!!!!!!!!!")})가 핸들러
+app.get("/", (req, res) => {
+  res.send("hello world!!!!!!!!!!");
+});
+app.get("/customer", (req, res) => {
+  res.send("get");
+});
+app.post("/customer", (req, res) => {
+  res.send("post");
+});
+app
+  .route("/board")
+  .get((req, res) => {
+    res.send("board get");
+  })
+  .post((req, res) => {
+    res.send("board post");
+  })
+  .put((req, res) => {
+    res.send("board put");
+  })
+  .delete((req, res) => {
+    res.send("board delete");
+  });
+//abcd 또는 acd
+app.get("/ab?cd", (req, res) => {
+  res.send("정규표현식");
+});
+
+app.get("/b[0-9]?cd", (req, res) => {
+  res.send("정규표현식숫자");
+});
+
+app.get("/c+de", (req, res) => {
+  res.send("정규표현식c한개이상");
+});
+
+app.listen(port, () => {
+  console.log(`server runing http://localhost:${port}`);
+});
+##################################################
+routes폴더 만들고 board.js파일 만들기(app.js에서 route부분 잘라내기 붙여넣기 후 수정)
+const express = require("express");
+const route = express.Router();
+
+route
+  .get((req, res) => {
+    res.send("board get");
+  })
+  .post((req, res) => {
+    res.send("board post");
+  })
+  .put((req, res) => {
+    res.send("board put");
+  })
+  .delete((req, res) => {
+    res.send("board delete");
+  });
+
+module.exports = route;
+
+app.js가서
+const express = require("express");
+const boardRouter = require("./routes/board");
+const customerRouter = require("./routes/customer");
+const app = express();
+const port = 3000;
+
+app.use("/board", boardRouter);
+app.use("/customer", customerRouter);
+
+app.get("/", (req, res) => {
+  res.send("hello world!!!!!!!!!!");
+});
+
+//abcd 또는 acd
+app.get("/ab?cd", (req, res) => {
+  res.send("정규표현식");
+});
+
+app.get("/b[0-9]?cd", (req, res) => {
+  res.send("정규표현식숫자");
+});
+
+app.get("/c+de", (req, res) => {
+  res.send("정규표현식c한개이상");
+});
+
+app.listen(port, () => {
+  console.log(`server runing http://localhost:${port}`);
+});
+
+
+
+
+##########################
+자바스크립트 표준 ES로 바꾸기
+package.json에서   "description": "",  "main": "app.js" 사이에 "type": "module"을 추가하고
+app.js에서 const boardRouter = require("./routes/board.js") 처럼 .js 추가 후
+app.js board.js 파일 모두 require ...에 마우스 올려서 Quick fix 클릭 후 Convert to ES module 클릭
+
+
+결과물
+@@@@@@@@
+app.js
+import express from "express";
+import boardRouter from "./routes/board.js";
+import customerRouter from "./routes/customer.js";
+const app = express();
+const port = 3000;
+
+app.use("/board", boardRouter);
+app.use("/customer", customerRouter);
+
+app.get("/", (req, res) => {
+  res.send("hello world!!!!!!!!!!");
+});
+
+//abcd 또는 acd
+app.get("/ab?cd", (req, res) => {
+  res.send("정규표현식");
+});
+
+app.get("/b[0-9]?cd", (req, res) => {
+  res.send("정규표현식숫자");
+});
+
+app.get("/c+de", (req, res) => {
+  res.send("정규표현식c한개이상");
+});
+
+app.listen(port, () => {
+  console.log(`server runing http://localhost:${port}`);
+});
+
+
+@@@@@@@@@@
+board.js
+import { Router } from "express";
+const route = Router();
+
+route
+  .get("/", (req, res) => {
+    res.send("board get");
+  })
+  .post("/", (req, res) => {
+    res.send("board post");
+  })
+  .put("/", (req, res) => {
+    res.send("board put");
+  })
+  .delete("/", (req, res) => {
+    res.send("board delete");
+  });
+
+export default route;
+
+@@@@@@@@@@
+customer.js
+import { Router } from "express";
+const route = Router();
+
+route.get("/", (req, res) => {
+  res.send("get");
+});
+route.post("/", (req, res) => {
+  res.send("post");
+});
+route.put("/", (req, res) => {
+  res.send("put");
+});
+route.delete("/", (req, res) => {
+  res.send("delete");
+});
+
+export default route;
+
+######################################
+import express from "express";
+import boardRouter from "./routes/board.js";
+import customerRouter from "./routes/customer.js";
+const app = express();
+const port = 3000;
+
+app.use("/board", boardRouter);
+app.use("/customer", customerRouter);
+
+app.get(
+  "/example",
+  (req, res, next) => {
+    console.log("첫번째 콜백"); //터미널(서버콘솔)에서 확인가능
+    next();	//안 넣으면 뒤에 실행x
+  },
+  (req, res) => {
+    res.send("두번째 콜백"); //부메랑에서 확인가능
+  }
+);
+
+app.get("/", (req, res) => {
+  res.send("hello world!!!!!!!!!!");
+});
+
+//abcd 또는 acd
+app.get("/ab?cd", (req, res) => {
+  res.send("정규표현식");
+});
+
+app.get("/b[0-9]?cd", (req, res) => {
+  res.send("정규표현식숫자");
+});
+
+app.get("/c+de", (req, res) => {
+  res.send("정규표현식c한개이상");
+});
+
+app.listen(port, () => {
+  console.log(`server runing http://localhost:${port}`);
+});
+
+p.56 rest parameter
+함수 안에 인수가 추가될 수 있게 만듦. 
+예시
+@@@@@@am1145restParameter.html
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>am1145restParameter.html</title>
+  </head>
+  <body>
+    <h3>restParameter</h3>
+    <script>
+      function sum(x1, x2) {
+        let y = x1 + x2;
+        return y;
+      }
+      // function sum(x1, x2, x3) {
+      //   let y = x1 + x2 + x3;
+      //   return y;
+      // }
+      function sumrest(...arr) {
+        let y = 0;
+        for (let i = 0; i < arr.length; i++) {
+          y += arr[i];
+        }
+        return y;
+      }
+      console.log(sum(5, 7));
+      console.log(sumrest(5, 7, 10));
+      console.log(sumrest(5, 7, 10, 3, 4));
+      const num = [5, 7, 10, 3, 4];
+      console.log(sumrest(...num)); //...는 spread연산자
+    </script>
+  </body>
+</html>
+
+#################################################1200 p.126
+app.js에서
+@@@@@@@@@@수정
+app.get(
+  "/example",
+  (req, res, next) => {
+    let a;
+    console.log(a / 5);
+    console.log("첫번째 콜백"); //터미널(서버콘솔)에서 확인가능
+    next(); //안 넣으면 뒤에 실행x
+  },
+  (req, res) => {
+    res.send("두번째 콜백"); //부메랑에서 확인가능
+  }
+);
+를 하면 터미널에 NaN 나옴
+http://localhost:3000/example에서 보기
+
+@@@@@@@@수정
+app.get(
+  "/example",
+  (req, res, next) => {
+    throw new Error("에러발생");
+    console.log("첫번째 콜백"); //터미널(서버콘솔)에서 확인가능
+    next(); //안 넣으면 뒤에 실행x
+  },
+
+@@@@@@@@@@@@수정
+
+
+
+#######################################정적파일 정적 컨텐츠 static함수
+public 폴더 만들고 images 폴더 만들고 그 안에 그림 파일 하나 넣고 public 폴더에 pm0017main.html파일 만들어서
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pm0017main.html</title>
+  </head>
+  <body>
+    <h1>pm0017main</h1>
+    <img src="/images/개죽이2.jpg" />
+  </body>
+</html>
+
+@@@@@@@@@@@@@@@@@@
+app.js 파일에
+app.use(express.static("public")); 추가 후 
+http://localhost:3000/pm0017main.html 켜보기
+http://localhost:3000/images/개죽이2.jpg로 본 것과 같은 결과
+
+@@@@@@@@@@@@@@@@
+앞에 했던 boardReg.html info.html userReg.html을 public 파일에 복사 후 
+app.js 파일에 
+app.use("/static", express.static("public"));  넣기(/static 가상 경로를 추가)
+http://localhost:3000/static/boardReg.html
+http://localhost:3000/static/info.html
+http://localhost:3000/static/userReg.html
+
+
+####################################1240
+public 폴더에 pm0038login.html파일 만들기
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>pm0038login.html</title>
+  </head>
+  <body>
+    <form action="/login">
+      <input name="email" placeholder="email" />
+      <input name="pw" placeholder="password" />
+      <button>로그인</button>
+    </form>
+  </body>
+</html>
+
+@@@@@@@app.js가서 추가하기
+app.get("/login", function (req, res) {
+  console.log(req.query.email);
+  res.send("로그인완료");
+});
+http://localhost:3000/pm0038login.html 가서 로그인 눌러보기
+
+###########################################
+body-parse
+클라이언트로 요청을 받을 때 파라미터(1.querystring url? post (body) 2.json "{}나 ㅏ[]" 3. pathvariable: 경로안에 변수값이 들어가있는 경우)를 받음
+@@@@@@@@@@@@pm1410board.js만들기
+import { Router } from "express";
+const route = Router();
+
+route
+  .get("/", (req, res) => {
+    //?writer=kim
+    console.log("writer:", req.query.writer);
+    console.log("wdt:", req.query.wdt);
+    res.send("board get");
+  })
+  .post("/", (req, res) => {
+    res.send("board post");
+  })
+  .put("/", (req, res) => {
+    res.send("board put");
+  })
+  .delete("/", (req, res) => {
+    res.send("board delete");
+  });
+
+export default route;
+
+@@@@@@@@@@@app.js에서 추가
+import boardRouter2 from "./routes/pm1410board.js";
+app.use("/pm1410board", boardRouter2);
+
+부메랑 get  http://localhost:3000/pm1410board
+querystring 에서 add parameter 해서 writer kim wdt dkjfsl 입력 후 send해보기
+
+
+###########################################교재130쪽
+app.js에 추가(app 젤 위에 추가할 것)
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json());
+
+pm1410board 파일 수정
+  .post("/", (req, res) => {
+    console.log(req.body.title);
+    res.send("board post");
+  })
+부메랑 가서 post http://localhost:3000/pm1410board에서 json에
+{ "title" : "this  is test",
+  "contents" : "this is content",
+  "writer" : "kim"
+}
+입력 후 send하면 터미널에 this  is test 라고 뜸
+
+#########################################
+pm1410board 파일 수정
+  .delete("/:boardno", (req, res) => {
+    console.log("boardno", req.params.boardno);
+    res.send("board delete");
+  });
+부메랑 가서 delete http://localhost:3000/100 send 누르면
+터미널에 boardno 100 라고 뜸
+
+#########################################1500 교안 18쪽
+nosdjs 파일에 터미널로 npm install express-generator -g 설치
+express MyApp
+cd MyApp
+npm install
+npm start
+크롬에서 http://localhost:3000/ 들어 가면 Express Welcome to Express라고 뜨고
+http://localhost:3000/users  respond with a resource 라고 뜨면 됨
+MyApp폴더 가서 app.js파일 열기
+###################################포트 변경
+set port=80 입력 후 npm start
+80은 포트 생략가능 해서 localhost만 입력해도 됨
+#############################교재133쪽(교안 14쪽인데 myapp에 설치함)
+아까 만든 public에 있는 pm0038loing.html을 myapp-public에 복사하기(login.html로 저장하기)
+클라이언트(로컬)에 cookie나 session으로 저장하고 서버에는 session으로 저장
+사용자가 로그인 하면 사용자마다 아이디 비번과 sessionID가 서버로 같이 넘어감. 서버는 session 정보로 로그인여부확인
+(저장 기간은 서버에서 지정가능)
+cookie말고 다른 두개 설치 
+app.js파일 맨 밑에 
+
+
+
+
+
+
