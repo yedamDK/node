@@ -19,7 +19,7 @@ function selectAll() {
             <td>${res[i].phone}</td>
             <td>${res[i].address}</td>
             <td><button id="delbtn">삭제</button>
-            <button id="btnsel">조회</button></td>
+            <button id="selbtn">조회</button></td>
           </tr>`;
         list.innerHTML += tr;
       } //<td>${res[i].id}</td>에서 id인 이유는 SQL에서 처음 만들때 id로 정했기 때문
@@ -53,8 +53,17 @@ function insert() {
 function customerDelete() {
   list.addEventListener("click", function (ev) {
     //단건 조회
-    if (ev.target.id == "btnsel") {
-      fetch(`${url}/${id}`, {}).then().then();
+    if (ev.target.id == "selbtn") {
+      let id = ev.target.closest("tr").getAttribute("data-id");
+      fetch(`${url}/${id}`)
+        .then((res) => res.json())
+        .then((res) => {
+          userid.value = res.id;
+          username.value = res.name;
+          email.value = res.email;
+          phone.value = res.phone;
+          address.value = res.address;
+        });
       //삭제
     } else if (ev.target.id == "delbtn") {
       let id = ev.target.closest("tr").getAttribute("data-id");

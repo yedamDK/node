@@ -11,7 +11,17 @@ router.get("/", (req, res) => {
     res.json(results);
   });
 });
-router.get("/:id", (req, res) => {});
+//단건조회
+router.get("/:id", (req, res) => {
+  const id = req.params.id;
+  sql = "SELECT * FROM customers where id=?";
+  pool.query(sql, id, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
+    res.json(results[0]); //배열로 나와서 스트링으로 나오게 [0]
+  });
+});
 
 //등록
 router.post("/", (req, res) => {
@@ -25,7 +35,6 @@ router.post("/", (req, res) => {
 });
 
 //수정
-router.put("/:id", (req, res) => {});
 
 //삭제
 router.delete("/:id", (req, res) => {
