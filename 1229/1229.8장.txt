@@ -1,0 +1,438 @@
+카카오오븐 네이버메일로 로그인
+pdf로 저장해서 발표할 내용 제출
+https://getbootstrap.com/docs/5.3/content/tables/
+https://startbootstrap.com/
+스타일 참고
+##############boot.html 파일
+https://getbootstrap.com/docs/5.3/getting-started/introduction/
+2. Include Bootstrap’s CSS and JS에서
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+복사하기
+
+
+@@@@@@@@@@@@@@@@레이아웃에 그리드
+https://getbootstrap.com/docs/5.3/layout/grid/에서 example html 밑에 div 복사
+
+@@@@@@@@@@@@@@@@@@
+두번째 div에 table>(tr>td*5)*5 로 테이블 추가하기
+
+
+@@@@@@@@@@@@@@@@@@
+div에 클래스를 줘서 사이즈 조절(총합은 항상 12)
+col-lg-2 col-md-12 라지 사이즈 이상이면 2사이즈 
+미디움사이즈면 12사이즈로 한다
+
+@@@@@@@@@@@@@@@
+Form control, modal, Pagination써도 됨
+Accordion example 복사해서 div 안에 쓰기
+이때 자바스크립트를 안 넣어서 작동하지 않음
+https://getbootstrap.com/docs/5.3/getting-started/introduction/ 가서
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+링크 밑에 넣기
+
+@@@@@@@@@@@@@@@@@@
+
+#######################################
+
+8장(교안 04_mysql)
+mysql 켜기
+186쪽
+데이터베이스 추가하기 query 밑에 원통모양(4번째) 누르고 dev입력 utf8, utf8_general_ci 선택 apply apply finish
+188쪽 아까 원통모형 바로 오른쪽 create new table(5번째) 클릭 후 책 따라 하기
+190쪽(id는 앞에서 auto increment AI를 선택했기 때문에 안 넣어도 자동생성)
+insert into dev.customers(name, email, phone, address)
+values('John Doe','john@mail.com','010-0000-000','');
+입력 후 execute2 클릭
+
+select * from customers; 입력 후 execute2클릭 하여 표 생성된지 확인
+@@@@@@@@@@@@@@@@@@@@
+추가하고 싶으면 위에 입력 했던 것
+insert into dev.customers(name, email, phone, address)
+values('John Doe','john@mail.com','010-0000-000','');
+를 수정할 것
+select * from customers;를 execute
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+수정하고 싶으면
+update customers set name = '김유신' where id =1;
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+삭제하고 싶으면
+delete from customers where id =2;
+
+#############################192쪽
+create user 'dev01'@'%' identified with mysql_native_password by '1234';
+번개
+grant all privileges on dev.* to 'dev01'@'%' with grant option; 
+flush privileges;
+둘 다 번개 하고
+file에서 close connection tab 클릭 후 + 누르고
+처음에 dev
+유저네임에 dev01
+비번은 스토어에 1234
+밑에 dev 넣고
+test해서 정상인지 확인 후
+apply 후 dev 열기
+
+###########################191쪽######################
+VS코드에서 npm install mysql  설치
+mySql 폴더에서 test폴더 만들고 거기에 select.js파일 만들기(교안6쪽)
+const mysql = require("mysql");
+//mysql 접속정보
+const conn = {
+  host: "localhost",
+  port: "3306",
+  user: "dev01",
+  password: "1234",
+  database: "dev",
+};
+
+let connection = mysql.createConnection(conn); //DB커넥션 생성
+connection.connect(); //DB접속
+
+sql = "SELECT * FROM customers";
+connection.query(sql, function (err, results, fields) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(results);
+});
+
+connection.end(); //DB 접속종료
+
+
+@@@@@@@@@@@@@@@
+터미널에서 cd mySql
+cd test
+node select.js 입력 후 되는지 확인
+
+#####################추가하기 insert.js파일 만들어서######################
+const mysql = require("mysql");
+//mysql 접속정보
+const conn = {
+  host: "localhost",
+  port: "3306",
+  user: "dev01",
+  password: "1234",
+  database: "dev",
+};
+
+let connection = mysql.createConnection(conn); //DB커넥션 생성
+connection.connect(); //DB접속
+
+let sql = "insert into customers set ?";
+let data = {
+  name: "최기자",
+  email: "dkfjslf@dk.com",
+  phone: "011-1213-4413",
+  address: "",
+};
+//위에 입력한 data 값을 넣기 위해 중간에 data 추가
+connection.query(sql, data, function (err, results, fields) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(results);
+});
+
+connection.end(); //DB 접속종료
+
+@@@@@@@@@@@@@@@@@
+터미널에서 node insert.js 쳐서 affectedRows: 1 됐는지 확인(하나 추가 됐다는 의미)
+MYSQL에서 select * from customers; 로 확인하기
+
+#########################수정하기 update.js파일 만들어서######################
+const mysql = require("mysql");
+//mysql 접속정보
+const conn = {
+  host: "localhost",
+  port: "3306",
+  user: "dev01",
+  password: "1234",
+  database: "dev",
+};
+
+let connection = mysql.createConnection(conn); //DB커넥션 생성
+connection.connect(); //DB접속
+
+let sql = "update customers set ?  where id=?";
+let data = [{ email: "park@gmail.com", name: "park" }, 3];	//3번 수정한다는 의미
+//위에 입력한 data 값을 넣기 위해 중간에 data 추가
+connection.query(sql, data, function (err, results, fields) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(results);
+});
+
+connection.end(); //DB 접속종료
+
+@@@@@@@@
+터미널에서 node update.js 쳐서 changedRows: 1 확인
+MYSQL에서 select * from customers; 로 확인하기
+
+
+#########################삭제하기 delete.js파일 만들기#########
+const mysql = require("mysql");
+//mysql 접속정보
+const conn = {
+  host: "localhost",
+  port: "3306",
+  user: "dev01",
+  password: "1234",
+  database: "dev",
+};
+
+let connection = mysql.createConnection(conn); //DB커넥션 생성
+connection.connect(); //DB접속
+
+let sql = "delete from customers where id=?";
+let data = 1;		//1번 삭제한다는 의
+//위에 입력한 data 값을 넣기 위해 중간에 data 추가
+connection.query(sql, data, function (err, results, fields) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(results);
+});
+
+connection.end(); //DB 접속종료
+
+@@@@@@@@
+터미널에서 node delete.js 쳐서 affectedRows: 1 확인
+MYSQL에서 select * from customers; 로 확인하기
+
+##########################p.191 mysqlPool.js파일 만들기 #######
+const mysql = require("mysql");
+//mysql 접속정보
+const conn = {
+  host: "localhost",
+  port: "3306",
+  user: "dev01",
+  password: "1234",
+  database: "dev",
+  connectionLimit: 10,
+};
+
+let pool = mysql.createPool(conn); //DB커넥션 생성
+//pool.getConnection()
+sql = "SELECT * FROM customers";
+pool.query(sql, function (err, results, fields) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(results);
+});
+//pool.release
+
+
+########################pool 만들기
+const mysql = require("mysql");
+//mysql 접속정보
+const conn = {
+  host: "localhost",
+  port: "3306",
+  user: "dev01",
+  password: "1234",
+  database: "dev",
+  connectionLimit: 10,
+};
+
+let pool = mysql.createPool(conn); //DB커넥션 생성
+module.exports = pool; //외부로 보낼 수 있다.
+
+
+####################poolselect만들기
+const pool = require("./pool");
+//mysql 접속정보
+
+sql = "SELECT * FROM customers";
+pool.query(sql, function (err, results, fields) {
+  if (err) {
+    console.log(err);
+  }
+  console.log(results);
+});
+
+################1400#########################
+뷰페이지 customer.html public 폴더 안에
+클릭했을 때 서버(node.js언어로 만들기)와 연동을 AJAX함수(.xhr 또는 .fetch)를 이용해 JSON으로 받고 보냄 
+추가는 post /customer/
+수정은 put /customer/번호
+삭제는 delete/customer/번호
+단건 조회 get /customer/번호
+전체 조회 get/customer
+
+@@@@@@@@@public에  customers.html 만들기(front서버)
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <br />
+    <div class="container">
+      <div>
+        <div class="mb-3 row">
+          <label for="no" class="col-sm-2 col-form-label bg-light">이름</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" name="name" />
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="title" class="col-sm-2 col-form-label bg-light"
+            >이메일</label
+          >
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="email" name="email" />
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="writer" class="col-sm-2 col-form-label bg-light"
+            >전화번호</label
+          >
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="phone" name="phone" />
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <label for="price" class="col-sm-2 col-form-label bg-light"
+            >주소</label
+          >
+          <div class="col-sm-10">
+            <input
+              type="text"
+              class="form-control"
+              id="address"
+              name="address"
+            />
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <button class="btn btn-primary col-sm-2" id="addbtn">추가</button>
+          <button class="btn btn-success col-sm-2" id="updbtn">수정</button>
+        </div>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>□</th>
+            <th>번호</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>전화번호</th>
+            <th>주소</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody id="list">
+            <td><input type="checkbox" /></td>
+            <td>1</td>
+            <td>길동</td>
+            <td>a@mail.com</td>
+            <td>011-111-2222</td>
+            <td>대구</td>
+            <td><button>삭제</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script src="/javascripts/client.js"></script>
+    <script></script>
+  </body>
+</html>
+
+
+
+@@@@@@@@@@@@@@@@@@@@ 퍼블릭에 자바스크립트에 client.js 만들기(프론트서버)
+const url = "/customers";
+selectAll();
+//전체조회
+function selectAll() {
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      //list 클리어
+      list.innerHTML = "";
+      for (i = 0; i < res.length; i++) {
+        const tr = `<tr>
+            <td><input type="checkbox" /></td>
+            <td>${res[i].no}</td>
+            <td>${res[i].name}</td>
+            <td>${res[i].email}</td>
+            <td>${res[i].phone}</td>
+            <td>${res[i].address}</td>
+            <td><button>삭제</button></td>
+          </tr>`;
+        list.innerHTML += tr;
+      }
+    });
+}
+
+//등록
+
+//수정
+
+//삭제
+
+//단건조회
+
+
+@@@@@@@@@@@@@@@@@@@@@@@routes에 customers.js만들기(웹서버=라우터), pool.js도 웹서버인데 db에 sqpl구문으로 접속해서 데이터를 가져옴
+const url = "/customers";
+selectAll();
+//전체조회
+function selectAll() {
+  fetch(url)
+    .then((res) => res.json())
+    .then((res) => {
+      //list 클리어
+      list.innerHTML = "";
+      for (i = 0; i < res.length; i++) {
+        const tr = `<tr>
+            <td><input type="checkbox" /></td>
+            <td>${res[i].no}</td>
+            <td>${res[i].name}</td>
+            <td>${res[i].email}</td>
+            <td>${res[i].phone}</td>
+            <td>${res[i].address}</td>
+            <td><button>삭제</button></td>
+          </tr>`;
+        list.innerHTML += tr;
+      }
+    });
+}
+
+//등록
+
+//수정
+
+//삭제
+
+//단건조회
+
+@@@@@@@@@@@@@@@@@@@@@@app.js(웹서버) 파일 수정
+var customersRouter = require("./routes/customers"); //추가하기
+app.use("/customers", customersRouter); //추가하기 app.use("/users", usersRouter); 밑에
+
+
+
+
+
+
+
+
+
+
+
+
+

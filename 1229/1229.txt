@@ -1,0 +1,136 @@
+express 복습
+https://www.npmjs.com/package/express 가서 express 설치부터 설명
+http://expressjs.com/ 가면 express관련 자세한 설명이 있음
+node파일에서 터미널 express mySql 입력(mySql 파일 폴더가 생김) 
+cd mySql
+npm install            //node_modules. 파일 생성됨
+npm start	//npm run start 가 정석 run 생략됨
+
+http://localhost:3000/ 들어가짐 app.js 에 app.use('/', indexRouter);   app.use('/users', usersRouter); 가 들어가 있어서
+
+users.js에 
+router.get('/', function(req, res, next) {
+  res.send('respond with a resource');
+});
+가 있어서 /users 들어가짐
+
+app.js에 app.use(express.static(path.join(__dirname, 'public'))); 가 있어서 정적파일 가능(라우터를 거치지 않고)
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+가 미들웨어 때문에 클라이언트에서 넘어오는 파일을 다 파싱해 줌
+
+nodemon설정하기 npm install nodemon --save-dev
+--save-dev를 해야 package.json 파일에  따로 dev "devDependencies":에 설치
+안 넣으면 "dependencies" 안에 들어감
+package.json 파일에 ,
+    "dev": "nodemon ./bin/www" 추가
+
+npm run dev 하면 적용 됨
+
+@@@@@@@@@@@@@@@@@@@@@@
+npm에 가서 express-session
+https://www.npmjs.com/package/express-session
+
+교재 133쪽 아래 express-session과 134쪽 아래 session-file-store설치
+이러면 package.json "dependencies"에 추가됨
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@app.js
+require는 순서 상관없지만 app은 순서상관 있음
+const session = require("express-session"); //사용여부
+const fileStore = require("session-file-store")(session); //저장위치
+를 위쪽에 넣고
+
+//app.use(cookieParser());
+app.use(
+  session({
+    secret: "secret key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      httpOnly: true,
+      //secure: true,
+      maxAge: 60000,
+    },
+    store: new fileStore(),
+  })
+);
+를 app.use(express.urlencoded({ extended: false })); 밑에 넣기
+(03express 교안16쪽 //secure: true, 똑같이 하기 우리는 http로 하기 대문에 https 설정은 하지 않음)
+
+@@@@@@@@@@@@@@@@@@routes users.js 파일에 추가하기
+
+router.post("/login", function (req, res) {
+  req.session.email = req.body.email; //post 파라미터여서 query 아니라 body
+  req.session.is_logined = true;
+  //cookie할때 필요 없음
+  req.session.save((err) => {
+    //session에 저장
+    if (err) throw err;
+    res.redirect("/"); //로그인하면 어디로 갈지 routes에 index.js파일 설정 따라 감
+  });
+});
+//로그아웃
+router.post("/logout", (req, res, next) => {
+  req.session.destroy();
+  res.redirect("/login.html");
+});
+
+@@@@@@@@@@@@@@index.js
+
+var express = require("express");
+var router = express.Router();
+
+/* GET home page. */
+router.get("/", function (req, res, next) {
+  res.render("index", { title: "Express" }); //views폴더에 index.jade 설정대로 감
+});
+
+module.exports = router;
+
+@@@@@@@@@@@@views 폴더에 index.jade파일 수정
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  form(action="users/logout", method="post")
+    button(type="submit") 로그아웃
+
+
+
+@@@@@@@@@@@@@@@@@@
+public파일에 login.html 파일 만들기
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>login.html</title>
+  </head>
+  <body>
+    <form action="/users/login" method="post">
+      <input name="email" placeholder="email" />
+      <input name="pw" placeholder="password" />
+      <button>로그인</button>
+    </form>
+  </body>
+</html>
+
+
+@@@@@@@@@@@@@@@@
+http://localhost:3000/login.html 가서 로그인 하면 f12 application에서 왼쪽 storage cookies에 파일이 생김 session ID값을 갖고 있음
+sessions폴더에도 파일이 생긴 것을 확인(표준시 기준으로 시간이 생성됨 우리시간에서 9시간빼면 됨
+lastAccess가 마지막 접속시간) 1분이 지나면 자동으로 세션이 제거 됨(Deleting expired sessions라고 뜸)
+
+로그아웃하면 session폴더에서 생성된 파일이 지워진 것을 볼 수 있음
+
+
+
+
+
+
+
+

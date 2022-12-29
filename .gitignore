@@ -3,3 +3,4 @@ node-project/package.json
 node-project/package-lock.json
 MyApp/sessions/
 MyApp/node_modules/
+mySql/node_modules/
