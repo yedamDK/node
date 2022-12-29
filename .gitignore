@@ -1,4 +1,5 @@
 node_modules/
 node-project/package.json
 node-project/package-lock.json
-MyApp/sessions/FjeQPQ-hZTbUT8FoWMHwMUP0_GFfa0OE.json
+MyApp/sessions/
+MyApp/node_modules/
