@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
     res.json(results);
   });
 });
-//단건조회
+//단건조회(단건이라 전체랑 달리 id 설정할 것 두 군데)
 router.get("/:id", (req, res) => {
   const id = req.params.id;
   sql = "SELECT * FROM customers where id=?";
