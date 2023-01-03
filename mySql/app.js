@@ -6,8 +6,9 @@ var logger = require("morgan");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var customersRouter = require("./routes/customers"); //추가 됨
-const session = require("express-session");
-const fileStore = require("session-file-store")(session);
+var booksRouter = require("./routes/books.js"); //books.js 맨 마지막 router가 되게 한 것
+const session = require("express-session"); //추가됨 express 쓸거여서
+const fileStore = require("session-file-store")(session); //추가됨
 
 var app = express();
 
@@ -26,7 +27,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       httpOnly: true,
-      //secure: true,
+      //secure: true, https에서 사용
       maxAge: 60000,
     },
     store: new fileStore(),
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/customers", customersRouter); //추가
+app.use("/books", booksRouter); // 미들웨어로추가
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

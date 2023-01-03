@@ -425,6 +425,10 @@ var customersRouter = require("./routes/customers"); //추가하기
 app.use("/customers", customersRouter); //추가하기 app.use("/users", usersRouter); 밑에
 
 
+@@@@@@@@@@@@@@@@@@@@@@customers.js수정
+
+
+
 
 
 

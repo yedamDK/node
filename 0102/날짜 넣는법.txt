@@ -1,0 +1,17 @@
+작성일자 넣는법 table만들 때 Datatype에 DATETIME이라고 하고 default/Expreesion에 now()를 넣으면 됨
+DATE 라면 default/Expreesion에 current_date
+
+자바스크립트에서 wdate: new Date()
+
+<form action="">
+<button type="submit">등록</button>
+</form>은 "" form에 액션이 걸림
+
+<form action="">
+<button type="button">등록</button>
+</form>
+해야
+
+btn.addEventListener("click", function(){
+fetch
+}

@@ -18,10 +18,17 @@
     <div class="container">
       <div>
         <div class="mb-3 row">
+          <label for="no" class="col-sm-2 col-form-label bg-light">번호</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control" id="userid" name="userid" />
+          </div>
+        </div>
+        <div class="mb-3 row">
           <label for="no" class="col-sm-2 col-form-label bg-light">이름</label>
           <div class="col-sm-10">
-            <input type="hidden" id="userid" name="userid" />
             <input type="text" class="form-control" id="username" name="name" />
+            <!-- <input type="hidden" id="userid" name="userid" /> -->
+            <!-- 숨긴 기능이라서 조회해도 숫자는 추가되지 않음 -->
           </div>
         </div>
         <div class="mb-3 row">

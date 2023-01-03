@@ -3,6 +3,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.get("/", function (req, res, next) {
+  console.log(req.session.username); //session 읽을 수 있음
   res.send("respond with a resource");
 });
 

@@ -1,0 +1,84 @@
+서버(서비스, 자료 제공)에서 api에서 데이터를 가져오는 방법: 백단에서xmlHttpRequest로 요청(ajax)
+이걸 기반으로 더 편하게 fetch(이까지는 자바스크립트 기본제공기능)
+추가설치로 axios, jquery
+AJAX란 비동기통신으로 페이지 이동없이(백그라운드) 서버로부터 DATA(STRING으로)만 받아와서 페이지 일부분을 갱신하는 기술
+데이터는 STRING('DATA1','DATA2')으로만 이동 JSON형식은 JSON스트링으로 변환해야 됨
+(스트링[] ,{}을 ''로 가둬둔 것이 JSON 스트링 )
+클라이언트와 서버간의 객체가 다른 언어이기 때문에 변환과정 필요
+JSON:자바스크립트에서 사용하는 오브젝트(객체)표기법은 { },배열: [ ]
+open하고 send요청하고  결과받으면 onload 실행
+
+@@@@@@@@@@@@@@@@
+실제데이터는 DB서버에 따로 있는데 SQL을 통해서 DB의 데이터를 빼고 넣을 수 있다
+select from~~ 조회 delete from~~ 삭제 insert ~~into 추가 update set ~~수정
+통신할때 쓰는 모듈은 require('mysql'), ms-sql, oracle, 몽고db등이 있다
+1.create(connetcion)해서 먼저 연결요청 ip 포트 id 비번(conn으로 설정)
+2.connection.query(실행한 구문)
+3.function이 결과처리(results 값) 이때 콜백함수로 에러가 날 때 대비해 throw 설정, fields 데이터의 컬럼 정보
+4.close 연결해제 (동시에 접속할 사람 수가 제한되어 있어서)
+
+@@@@@@@@@@@@@npm mysql사이트 가서 이해하기
+
+@@@@@@@@@@@@@
+connection 대신에 pool을 하면 서버과부하를 막을 수 있다
+
+@@@@@@@@@@@@@@
+MYSQL AUTO_INCREMENT값 가져오기 검색
+SQL워크밴치에서
+SELECT MAX(no)+1 FROM new_table;
+SELECT LAST_INSERT_ID()
+
+@@@@@@@@@@@
+클라이언트에서 서버로 데이터 보내는법
+path베리어블(url 뒤에 /1 이렇게 보냄)
+querystring(?id= 이런식으로 보냄)
+바디안에 쿼리스트링("id=10&name=")이나 제이슨스트링(body영역에  '{"no": ?}') 넣어서
+서버에서 클라이언트는 제이슨스트링으로 보냄
+
+@@@@@@@@@@@@@@@서버에서 데이터 처리는 라우터(컨트롤러 역할)
+요청:customer.html 스크립트에서 client.js로 연결(브라우저에서 실행) client.js에서 customers.js로 연결(서버스크립트) db서버에서 요청한 값 가져옴
+클라이언트 바디값을 커스터머 req.body로 감 풀쿼리의 req.body로 데이터베이스로 요청 하여 결과 값을 
+결과를 반대로 보냄.
+
+express기준으로 설명
+express.use(라우터등록)
+라우터는 "url", 라우터 객체로 구성
+url별로 분리해서 구성할 수 있음 ex. /customer , /user
+해당하는 url에서 해당하는 핸들러 호출
+
+app.use(json, url encode)
+
+미들웨어(app.use)에서 핸들러 가기 전에 모든 파라미터를 파싱해줘서 전달(스트링을 제이슨으로 변환)
+그래서 핸들러에서
+req req.params(/1 되어있는 걸 1로 읽을 수 있음)
+req.query(?id를 id로 읽음)
+req.body( '{"no": ?}를 {"no": ?}로 읽음)로 받아줄 수 있다
+
+
+######################################
+노드
+도서관리
+-테이블설계, 생성
+-서버 프로그램 -라우터 핸들러
+restful : rest서버
+ /books : get 전체조회
+ /books/1 : get 단건조회 
+ /books/1 : delete
+
+ /books : post : data 등록
+ /books/1 : put : data 수정
+
+뷰페이지 만들기(html, ajax로 서버연동)
+
+프로젝트
+ express  프로젝트명(폴더명)
+ cd 폴더로 이동
+ npm install mysql
+ npm install nodemon --watch-dev
+
+ 로그인 -- session필요
+
+
+############################프로미스 설명
+https://poiemaweb.com/es6-promise
+비동기 처리를 위해 콜백 패턴을 사용하면 처리 순서를 보장하기 위해 여러 개의 콜백 함수가 네스팅(nesting, 중첩)되어 복잡도가 높아지는 콜백 헬(Callback Hell)이 발생하는 단점을 해결하기 위해 프로미스 사용

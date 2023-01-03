@@ -1,0 +1,41 @@
+npm ejs
+
+npm install
+npm install mysql
+npm start
+
+브라우저에서 http://localhost:3000/customers
+
+###############서버사이드랜더링 : EJS PUB ...
+EJS 템플릿 사용법
+res.render("customer", { list: result })
+
+ejs
+	<% 자바스크립트 코드 %>
+	<%= (출력)변수 또는 수식 %>
+
+
+
+
+#####################
+express --view ejs 프로젝트명
+폴더로 이동 후
+>npm install
+>npm install mysql
+>npm install nodemon
+
+package.json : scripts 수정
+
+>npm run dev
+
+1. 뷰페이지
+public
+ html파일
+
+테스트 :브라우저 -> localhost:3000/index.html
+
+2. 서버 코딩 (router, mysql)
+
+3.ejs 랜더링 or ajax
+
+동적페이지는 ejs로 만든다(ex. 로그인 하였을때나 로그아웃 하였을때 화면 변경).

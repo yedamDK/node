@@ -4,3 +4,6 @@ node-project/package-lock.json
 MyApp/sessions/
 MyApp/node_modules/
 mySql/node_modules/
+project/node_modules/
+exam/node_modules/
+ejsapp/node_modules/

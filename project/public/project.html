@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="stylesheets/style.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
+      crossorigin="anonymous"
+    />
+    <script type="text/javascript">
+      var bDisplay = true;
+      function doDisplay() {
+        var con = document.getElementById("createDiv");
+        if (con.style.display == "none") {
+          con.style.display = "block";
+        } else {
+          con.style.display = "none";
+        }
+      }
+    </script>
+
+  </head>
+  <body>
+        <header id="banner">
+      <img src="images/header.jpg" alt="banner" height="100px" width="1200px" />
+    </header>
+
+    <div id="container">
+      <div class="rap">
+        <button type="button" onclick="location.href='javascript:doDisplay()' " class="btnstyle">일정추가</button>
+        <div class="header">
+          <div class="btn prevDay"></div>
+          <h2 class="dateTitle"></h2>
+          <div class="btn nextDay"></div>
+        </div>
+        <div class="grid dateHead">
+          <div>일</div>
+          <div>월</div>
+          <div>화</div>
+          <div>수</div>
+          <div>목</div>
+          <div>금</div>
+          <div>토</div>
+        </div>
+
+        <div class="grid dateBoard"></div>
+      </div>
+    </div>
+    
+    <script src="javascripts/project.js"></script>
+
+    <div id="createDiv" style="display:none;">
+    <form>
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label for="title"
+          class="col-form-label">이름</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-control"
+              autofocus placeholder="일정명을 입력하세요."
+              />  
+            </div>        
+        <div class="form-group col-md-5">
+          <label for="pw"
+          class="col-form-label">비밀번호</label>
+            <input
+              type="password"
+              id="pw"
+              name="pw"
+              class="form-control"
+              placeholder="수정이나 삭제 시 필요합니다."
+              />
+            </div>
+      </div>
+      <div class="form-row">
+          <div class="form-group col-md-10">
+          <label for="contents"
+          class="col-form-label">내용</label>
+            <textarea
+              type="text"
+              id="contents"
+              name="contents"
+              class="form-control"
+              placeholder="자세한 일정을 입력하세요."
+            ></textarea>  
+          </div>        
+      </div>        
+      <div class="form-row">
+        <div class="form-group col-md-5">
+          <label for="stDate"
+          class="col-form-label">시작일</label>
+            <input
+              type="date"
+              id="stDate" name="stDate"
+              class="form-control"
+              placeholder="일정 시작일을 입력하세요."
+              />
+        </div>
+        <div class="form-group col-md-5">
+          <label for="fnDate"
+          class="col-form-label">종료일</label>
+            <input  
+              type="date"
+              id="fnDate" name="fnDate"
+              class="form-control"
+              placeholder="일정 종료일을 입력하세요."
+              />
+        </div>
+      </div>
+        <button type="button" class="btnstyle2">추가하기</button>
+        <button type="button" class="btnstyle2">수정하기</button>
+        <button type="button" class="btnstyle2">삭제하기</button>
+        
+    </div>
+    
+  </body>
+</html>

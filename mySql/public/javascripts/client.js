@@ -2,6 +2,7 @@ const url = "/customers";
 selectAll(); //전체조회
 insert(); //등록버튼에 이벤트 지정
 customerDelete();
+update();
 
 //전체조회
 function selectAll() {
@@ -74,4 +75,34 @@ function customerDelete() {
   });
 }
 
-//단건조회
+//수정
+function update() {
+  updbtn.addEventListener("click", function () {
+    let data = {
+      name: username.value,
+      email: email.value,
+      phone: phone.value,
+      address: address.value,
+    };
+    let id = userid.value;
+    fetch(`${url}/${id}`, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json", //넘길데이터 형식을 콘텐트타입에 넣음
+      },
+      body: JSON.stringify(data), // body는 보낼 데이터(제이슨을 스트링으로 변경)
+    })
+      .then((res) => res.json()) //받아온 데이터를 스트링을 다시 제이슨으로 변경(서버간은 스트링으로 주고받아야 해서)
+      .then((res) => {
+        if (res.results == true) {
+          alert("수정완료");
+          selectAll();
+        } else {
+          alert("수정실패");
+        }
+      })
+      .catch(() => {
+        alert("수정실패");
+      });
+  });
+}

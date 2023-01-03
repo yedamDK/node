@@ -34,8 +34,25 @@ router.post("/", (req, res) => {
   });
 });
 
-//수정
-
+//수정;
+router.put("/:id", (req, res) => {
+  let sql = "update customers set ?     where id=?";
+  let data = [req.body, req.params.id];
+  pool.query(sql, data, function (err, results, fields) {
+    let resultData = {};
+    if (err) {
+      console.log(err);
+      throw err;
+    }
+    if (results.changedRows > 0) {
+      resultData.results = true;
+      resultData.data = req.body;
+    } else {
+      resultData.results = false;
+    }
+    res.json(resultData); //json 대신에 send해도 됨
+  });
+});
 //삭제
 router.delete("/:id", (req, res) => {
   const id = req.params.id;
