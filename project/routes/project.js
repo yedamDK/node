@@ -1,24 +1,27 @@
 var express = require("express");
-const pool = require("./pool");
+const pool = require("../mysql/pool");
 var router = express.Router();
 
 sql = {
-  select: "select * from board",
-  selectOne: "select * from board where no =?",
-  insert: "insert into board set ?",
-  update: "update board set ?   where no=?",
-  delete: "delete from board where no =?",
+  select: "select * from calendar",
+  selectOne: "select * from calendar ",
+  insert: "insert into calendar set ?",
+  update: "update calendar set ?   where title=?",
+  delete: "delete from calendar where title =?",
 };
-//전제조회
+/* //전제조회
 router.get("/", function (req, res) {
   pool.query(sql.select, function (err, results, fields) {
     res.send(results);
   });
-});
+}); */
 
 //단건조회
-router.get("/:no", (req, res) => {
-  pool.query(sql.selectOne, req.params.no, function (err, results, fields) {
+router.get("/:title", (req, res) => {
+  pool.query(sql.selectOne, req.params.title, function (err, results, fields) {
+    if (err) {
+      console.log(err);
+    }
     res.json(results[0]);
   });
 });
@@ -34,8 +37,8 @@ router.post("/", (req, res) => {
 });
 
 //수정
-router.put("/:no", (req, res) => {
-  let data = [req.body, req.params.no];
+router.put("/", (req, res) => {
+  let data = [req.body, req.params.title];
   pool.query(sql.update, data, (err, results, fields) => {
     if (err) {
       console.log(err);
@@ -43,8 +46,10 @@ router.put("/:no", (req, res) => {
     res.json(results);
   });
 });
-router.delete("/:no", (req, res) => {
-  pool.query(sql.delete, req.params.no, (err, results, fields) => {
+
+//삭제
+router.delete("/", (req, res) => {
+  pool.query(sql.delete, req.params.title, (err, results, fields) => {
     let resultData = {};
     if (err) {
       console.log(err);

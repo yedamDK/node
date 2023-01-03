@@ -1,5 +1,5 @@
 npm ejs
-
+npm install ejs --save
 npm install
 npm install mysql
 npm start

@@ -26,10 +26,6 @@
 
   </head>
   <body>
-        <header id="banner">
-      <img src="images/header.jpg" alt="banner" height="100px" width="1200px" />
-    </header>
-
     <div id="container">
       <div class="rap">
         <button type="button" onclick="location.href='javascript:doDisplay()' " class="btnstyle">일정추가</button>
@@ -47,13 +43,12 @@
           <div>금</div>
           <div>토</div>
         </div>
-
         <div class="grid dateBoard"></div>
       </div>
     </div>
-    
-    <script src="javascripts/project.js"></script>
-
+<!--달력 일자 추가 -->
+    <script src="javascripts/calendar.js"></script>
+<!--일정 정보 -->
     <div id="createDiv" style="display:none;">
     <form>
       <div class="form-row">
@@ -115,11 +110,11 @@
               />
         </div>
       </div>
-        <button type="button" class="btnstyle2">추가하기</button>
-        <button type="button" class="btnstyle2">수정하기</button>
-        <button type="button" class="btnstyle2">삭제하기</button>
+        <button type="button" class="insertbtn">추가하기</button>
+        <button type="button" class="updatebtn">수정하기</button>
+        <button type="button" class="deletebtn">삭제하기</button>
         
     </div>
-    
+    <script src="./routes/project.js"></script>
   </body>
 </html>
